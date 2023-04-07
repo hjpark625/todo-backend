@@ -14,6 +14,7 @@ const { MONGO_URI } = process.env;
 mongoose
   .connect(`${MONGO_URI}`)
   .then(() => {
+    console.log(MONGO_URI);
     console.log('Connected to MongoDB');
   })
   .catch((e) => {
@@ -28,7 +29,7 @@ router.use('/api', api.routes());
 app.use(bodyParser());
 app.use(jwtMiddleware);
 
-app.use(router.routes).use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(port, () => {
   console.log(`${port}번 포트에서 서비스 대기중`);
