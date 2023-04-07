@@ -4,7 +4,7 @@ import User from '../models/user';
 
 interface DecodedInfo extends jwt.JwtPayload {
   _id: string;
-  username: string;
+  email: string;
 }
 
 const jwtMiddleware = async (ctx: Context, next: Next) => {
@@ -17,7 +17,7 @@ const jwtMiddleware = async (ctx: Context, next: Next) => {
     ) as DecodedInfo;
     ctx.state.user = {
       _id: decoded._id,
-      username: decoded.username,
+      email: decoded.email,
     };
     const now = Math.floor(Date.now() / 1000);
     if (decoded.exp && decoded.exp - (now / 60) * 60 * 24 * 3.5) {

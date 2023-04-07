@@ -1,11 +1,12 @@
 import Joi from 'joi';
 import User from '../../models/user';
 import type { Context } from 'koa';
-import type { UserInstanceType, UserInfoType } from '../../models/user';
+import type { UserInfoType } from '../../models/user';
 
 export const register = async (ctx: Context) => {
   const schema = Joi.object().keys({
-    username: Joi.string().alphanum().min(3).max(20).required(),
+    email: Joi.string().email().min(3).max(20).required(),
+    username: Joi.string().alphanum().min(3).max(20).optional(),
     password: Joi.string().required(),
   });
   const result = schema.validate(ctx.request.body);
@@ -15,16 +16,16 @@ export const register = async (ctx: Context) => {
     return;
   }
 
-  const { username, password } = ctx.request.body as UserInfoType;
+  const { email, password } = ctx.request.body as UserInfoType;
 
   try {
-    const exists = await User.findByUsername(username);
+    const exists = await User.findByUserEmail(email);
     if (exists) {
       ctx.status = 409;
       return;
     }
     const user = new User({
-      username,
+      email,
     });
 
     await user.setPassword(password);
@@ -46,8 +47,8 @@ export const register = async (ctx: Context) => {
 };
 
 export const login = async (ctx: Context) => {
-  const { username, password } = ctx.request.body as UserInfoType;
-  if (!username || !password) {
+  const { email, password } = ctx.request.body as UserInfoType;
+  if (!email || !password) {
     ctx.status = 401;
     ctx.body = {
       message: '회원가입을 해주세요',
@@ -56,7 +57,7 @@ export const login = async (ctx: Context) => {
   }
 
   try {
-    const user = await User.findByUsername(username);
+    const user = await User.findByUserEmail(email);
     if (!user) {
       ctx.status = 401;
       ctx.body = {
@@ -94,6 +95,7 @@ export const check = async (ctx: Context) => {
     };
     return;
   }
+  ctx.body = user;
 };
 
 export const logout = async (ctx: Context) => {

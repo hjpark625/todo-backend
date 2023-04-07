@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export interface UserSchemaType {
+  email: string;
   username: string;
   hashedPassword: string;
   password?: string;
@@ -16,18 +17,20 @@ export interface UserInstanceType extends UserSchemaType {
 }
 export interface UserModelType
   extends Model<UserSchemaType, {}, UserInstanceType> {
-  findByUsername: (
-    username: string,
+  findByUserEmail: (
+    email: string,
   ) => Promise<HydratedDocument<UserSchemaType, UserInstanceType>>;
 }
 
 export interface UserInfoType {
+  email: string;
   username: string;
   password: string;
 }
 
 const UserSchema = new Schema<UserSchemaType, UserModelType, UserInstanceType>({
-  username: { type: String, required: true },
+  email: { type: String, required: true },
+  username: { type: String },
   hashedPassword: { type: String, required: true },
 });
 
@@ -39,8 +42,8 @@ UserSchema.methods.checkPassword = async function (password: string) {
   const result = await bcrypt.compare(password, this.hashedPassword);
   return result;
 };
-UserSchema.statics.findByUsername = function (username: string) {
-  return this.findOne({ username });
+UserSchema.statics.findByUserEmail = function (email: string) {
+  return this.findOne({ email });
 };
 UserSchema.methods.serialize = function () {
   const data = this.toJSON();
@@ -51,7 +54,7 @@ UserSchema.methods.generateToken = function () {
   const token = jwt.sign(
     {
       _id: this.id as mongoose.ObjectId,
-      username: this.username,
+      email: this.email,
     },
     `${process.env.JWT_SECRET}`,
     { expiresIn: '7d' },
