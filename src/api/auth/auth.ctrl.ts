@@ -16,7 +16,7 @@ export const register = async (ctx: Context) => {
     return;
   }
 
-  const { email, password } = ctx.request.body as UserInfoType;
+  const { email, password, username } = ctx.request.body as UserInfoType;
 
   try {
     const exists = await User.findByUserEmail(email);
@@ -26,6 +26,7 @@ export const register = async (ctx: Context) => {
     }
     const user = new User({
       email,
+      username,
     });
 
     await user.setPassword(password);
