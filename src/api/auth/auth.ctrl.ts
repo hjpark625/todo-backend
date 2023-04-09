@@ -24,10 +24,12 @@ export const register = async (ctx: Context) => {
       ctx.status = 409;
       return;
     }
+
     const user = new User({
       email,
-      username,
+      username: username || email.split('@')[0],
     });
+    const token = user.generateToken();
 
     await user.setPassword(password);
     await user.save();
@@ -35,9 +37,8 @@ export const register = async (ctx: Context) => {
     const data = user.toJSON();
 
     delete data.password;
-    ctx.body = user.serialize();
+    ctx.body = { info: user.serialize(), access_token: token };
 
-    const token = user.generateToken();
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
@@ -74,9 +75,8 @@ export const login = async (ctx: Context) => {
       };
       return;
     }
-    ctx.body = user.serialize();
-
     const token = user.generateToken();
+    ctx.body = { info: user.serialize(), access_token: token };
 
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
