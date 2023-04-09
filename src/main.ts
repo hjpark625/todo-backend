@@ -3,6 +3,7 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from '@koa/cors';
 import jwtMiddleware from './lib/jwtMiddleware';
 import api from './api';
 
@@ -25,6 +26,7 @@ const router = new Router();
 
 router.use('/api', api.routes());
 
+app.use(cors());
 app.use(bodyParser());
 app.use(jwtMiddleware);
 
