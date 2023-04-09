@@ -37,9 +37,10 @@ export const register = async (ctx: Context) => {
     const data = user.toJSON();
 
     delete data.password;
-    ctx.body = { info: user.serialize(), access_token: token };
+    ctx.body = { user: { info: user.serialize(), access_token: token } };
 
     ctx.cookies.set('access_token', token, {
+      path: '/',
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
     });
@@ -53,7 +54,7 @@ export const login = async (ctx: Context) => {
   if (!email || !password) {
     ctx.status = 401;
     ctx.body = {
-      message: '회원가입을 해주세요',
+      message: '이메일과 비밀번호를 입력해주세요.',
     };
     return;
   }
@@ -76,9 +77,10 @@ export const login = async (ctx: Context) => {
       return;
     }
     const token = user.generateToken();
-    ctx.body = { info: user.serialize(), access_token: token };
+    ctx.body = { user: { info: user.serialize(), access_token: token } };
 
     ctx.cookies.set('access_token', token, {
+      path: '/',
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
     });
