@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import type { Model, HydratedDocument } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import type { Model, HydratedDocument } from 'mongoose';
 
 export interface UserSchemaType {
   email: string;
