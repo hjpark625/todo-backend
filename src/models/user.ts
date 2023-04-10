@@ -8,6 +8,8 @@ export interface UserSchemaType {
   username: string;
   hashedPassword: string;
   password?: string;
+  registerdAt: Date;
+  updatedAt: Date;
 }
 export interface UserInstanceType extends UserSchemaType {
   setPassword: (password: string) => Promise<void>;
@@ -32,6 +34,8 @@ const UserSchema = new Schema<UserSchemaType, UserModelType, UserInstanceType>({
   email: { type: String, required: true },
   username: { type: String },
   hashedPassword: { type: String, required: true },
+  registerdAt: { type: Date },
+  updatedAt: { type: Date },
 });
 
 UserSchema.methods.setPassword = async function (password: string) {

@@ -28,6 +28,8 @@ export const register = async (ctx: Context) => {
     const user = new User({
       email,
       username: username || email.split('@')[0],
+      registerdAt: new Date(),
+      updatedAt: null,
     });
     const token = user.generateToken();
 
