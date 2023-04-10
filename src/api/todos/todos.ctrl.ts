@@ -23,7 +23,9 @@ export const getTodos = async (ctx: Context) => {
 
 export const createTodo = async (ctx: Context) => {
   const schema = Joi.object().keys({
+    createdAt: Joi.date().required(),
     text: Joi.string().required(),
+    isCompleted: Joi.boolean().required(),
   });
   const result = schema.validate(ctx.request.body);
   if (result.error) {
