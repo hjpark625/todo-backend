@@ -1,5 +1,6 @@
-import type { Context } from 'koa';
+import Joi from 'joi';
 import Todo from '../../models/todo';
+import type { Context } from 'koa';
 import type { TodoSchemaType } from '../../models/todo';
 
 export const getTodos = async (ctx: Context) => {
@@ -21,6 +22,16 @@ export const getTodos = async (ctx: Context) => {
 };
 
 export const createTodo = async (ctx: Context) => {
+  const schema = Joi.object().keys({
+    text: Joi.string().required(),
+  });
+  const result = schema.validate(ctx.request.body);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
   const { user } = ctx.state;
   if (!user) {
     ctx.status = 401;
@@ -65,6 +76,17 @@ export const deleteTodo = async (ctx: Context) => {
 };
 
 export const updateTodo = async (ctx: Context) => {
+  const schema = Joi.object().keys({
+    text: Joi.string().optional(),
+    isCompleted: Joi.boolean().optional(),
+  });
+  const result = schema.validate(ctx.request.body);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
   const { user } = ctx.state;
   if (!user) {
     ctx.status = 401;
