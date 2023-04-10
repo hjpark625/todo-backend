@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "main.ts",
   "license": "MIT",
+  "engines": {
+    "node": "^16.19"
+  },
   "scripts": {
     "start": "cross-env NODE_PATH=src ts-node src/main.ts",
     "start:dev": "cross-env NODE_PATH=src nodemon --watch src --exec ts-node src/main.ts"
