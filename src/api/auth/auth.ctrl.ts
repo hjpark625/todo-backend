@@ -74,7 +74,7 @@ export const login = async (ctx: Context) => {
     if (!valid) {
       ctx.status = 401;
       ctx.body = {
-        messsage: '비밀번호가 일치하지 않습니다.',
+        message: '비밀번호가 일치하지 않습니다.',
       };
       return;
     }
