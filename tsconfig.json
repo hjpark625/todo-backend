@@ -11,7 +11,7 @@
         "types": ["node"],
         "outDir": "./dist",
         "strict": true,
-        "baseUrl": "./src/main.ts",
+        "noImplicitAny": true,
         "esModuleInterop": true,
         "experimentalDecorators": true
     }
