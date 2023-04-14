@@ -45,6 +45,7 @@ export const register = async (ctx: Context) => {
       path: '/',
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
+      sameSite: 'none',
     });
   } catch (e) {
     ctx.throw(`${e}`, 500);
@@ -85,6 +86,7 @@ export const login = async (ctx: Context) => {
       path: '/',
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
+      sameSite: 'none',
     });
   } catch (e) {
     ctx.throw(`${e}`, 500);
