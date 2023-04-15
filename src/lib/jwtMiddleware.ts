@@ -28,6 +28,7 @@ const jwtMiddleware = async (ctx: Context, next: Next) => {
         path: '/',
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
+        sameSite: 'none',
       });
     }
     return next();
