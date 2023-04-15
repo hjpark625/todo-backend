@@ -25,10 +25,9 @@ const jwtMiddleware = async (ctx: Context, next: Next) => {
       if (user == null) return;
       const token = user.generateToken();
       ctx.cookies.set('access_token', token, {
+        path: '/',
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
-        sameSite: 'none',
-        secure: false,
       });
     }
     return next();
