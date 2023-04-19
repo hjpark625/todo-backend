@@ -27,10 +27,10 @@ const router = new Router();
 router.use('/api', api.routes());
 
 app.use(cors({ credentials: true }));
-app.use((ctx, next) => {
-  ctx.cookies.secure = true;
-  return next();
-});
+// app.use((ctx, next) => {
+//   ctx.cookies.secure = true;
+//   return next();
+// });
 app.use(bodyParser());
 app.use(jwtMiddleware);
 
