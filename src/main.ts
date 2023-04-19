@@ -27,6 +27,7 @@ const router = new Router();
 router.use('/api', api.routes());
 
 app.use(cors({ credentials: true }));
+// TODO: 나중에 https 배포할 때 필요한 코드
 // app.use((ctx, next) => {
 //   ctx.cookies.secure = true;
 //   return next();
