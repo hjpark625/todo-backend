@@ -41,11 +41,11 @@ export const register = async (ctx: Context) => {
     delete data.password;
     ctx.body = { user: { info: user.serialize(), access_token: token } };
 
-    ctx.cookies.set('access_token', token, {
-      path: '/',
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true,
-    });
+    // ctx.cookies.set('access_token', token, {
+    //   path: '/',
+    //   maxAge: 1000 * 60 * 60 * 24 * 7,
+    //   httpOnly: true,
+    // });
   } catch (e) {
     ctx.throw(`${e}`, 500);
   }
@@ -81,11 +81,11 @@ export const login = async (ctx: Context) => {
     const token = user.generateToken();
     ctx.body = { user: { info: user.serialize(), access_token: token } };
 
-    ctx.cookies.set('access_token', token, {
-      path: '/',
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true,
-    });
+    // ctx.cookies.set('access_token', token, {
+    //   path: '/',
+    //   maxAge: 1000 * 60 * 60 * 24 * 7,
+    //   httpOnly: true,
+    // });
   } catch (e) {
     ctx.throw(`${e}`, 500);
   }
@@ -104,6 +104,6 @@ export const check = async (ctx: Context) => {
 };
 
 export const logout = async (ctx: Context) => {
-  ctx.cookies.set('access_token');
+  // ctx.cookies.set('access_token');
   ctx.status = 204;
 };
