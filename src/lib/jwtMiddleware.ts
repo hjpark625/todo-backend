@@ -8,8 +8,14 @@ interface DecodedInfo extends jwt.JwtPayload {
 }
 
 const jwtMiddleware = async (ctx: Context, next: Next) => {
-  const token = ctx.cookies.get('access_token');
+  const authorization = ctx.request.headers.authorization as string;
+  const token = authorization.split(' ')[1];
+  // const token = ctx.cookies.get('access_token');
+
+  console.log(!token);
+
   if (!token) return next();
+
   try {
     const decoded = jwt.verify(
       token,
@@ -20,15 +26,16 @@ const jwtMiddleware = async (ctx: Context, next: Next) => {
       email: decoded.email,
     };
     const now = Math.floor(Date.now() / 1000);
+    console.log(decoded.exp);
     if (decoded.exp && decoded.exp - (now / 60) * 60 * 24 * 3.5) {
       const user = await User.findById(decoded._id);
       if (user == null) return;
       const token = user.generateToken();
-      ctx.cookies.set('access_token', token, {
-        path: '/',
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
+      // ctx.cookies.set('access_token', token, {
+      //   path: '/',
+      //   maxAge: 1000 * 60 * 60 * 24 * 7,
+      //   httpOnly: true,
+      // });
     }
     return next();
   } catch (e) {
