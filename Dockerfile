@@ -11,9 +11,12 @@ RUN node --version
 RUN yarn --version
 
 RUN yarn install
-RUN yarn build
 
 COPY . .
+
+RUN yarn build
+
+
 
 EXPOSE 4000
 ENTRYPOINT ["yarn", "start"]
