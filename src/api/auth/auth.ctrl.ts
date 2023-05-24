@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import User from '../../models/user';
+import User from '@/models/user';
 import type { Context } from 'koa';
-import type { UserInfoType } from '../../models/user';
+import type { UserInfoType } from '@/models/user';
 
 export const register = async (ctx: Context) => {
   const schema = Joi.object().keys({

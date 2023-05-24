@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import Todo from '../../models/todo';
+import Todo from '@/models/todo';
 import type { Context } from 'koa';
-import type { TodoSchemaType } from '../../models/todo';
+import type { TodoSchemaType } from '@/models/todo';
 
 export const getTodos = async (ctx: Context) => {
   const { user } = ctx.state;

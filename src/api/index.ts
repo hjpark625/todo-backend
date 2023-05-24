@@ -1,6 +1,6 @@
 import Router from 'koa-router';
-import auth from './auth';
-import todos from './todos';
+import auth from '@/api/auth';
+import todos from '@/api/todos';
 
 const api = new Router();
 

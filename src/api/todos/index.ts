@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import * as todosCtrl from './todos.ctrl';
+import * as todosCtrl from '@/api/todos/todos.ctrl';
 
 const todos = new Router();
 

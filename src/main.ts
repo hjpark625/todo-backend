@@ -4,8 +4,8 @@ import bodyParser from 'koa-bodyparser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from '@koa/cors';
-import jwtMiddleware from './lib/jwtMiddleware';
-import api from './api';
+import jwtMiddleware from '@/lib/jwtMiddleware';
+import api from '@/api';
 
 dotenv.config();
 
